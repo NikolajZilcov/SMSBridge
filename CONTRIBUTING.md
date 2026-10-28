@@ -23,7 +23,20 @@ Each provider needs:
 - `<Name>SmsRequestMapper.cs` — maps `SmsMessage` to the provider's API format
 - `<Name>SmsResponseMapper.cs` — maps the provider API response to `SmsSendResult`
 - `<Name>Options.cs` in `Options/`
-- A `Use<Name>()` extension method in `DependencyInjection/SmsBridgeProviderBuilder.cs`
+- A `<Name>` value in `Abstractions/SmsProviderType.cs`
+- A `<Name>` constant in `Internal/Http/HttpClientNames.cs` (`"SmsBridge.<Name>"`)
+- A `Use<Name>()` extension method and `<Name>ProviderConfig` class, either in
+  `DependencyInjection/SmsBridgeProviderBuilder.cs` or in their own file under
+  `DependencyInjection/Providers/` (see `SmartSmsProviderBuilder.cs`), keeping the
+  `SmsBridge.DependencyInjection` namespace
+- `<Name>ProviderTests.cs` and `<Name>ResponseMapperTests.cs` in `tests/SmsBridge.ProviderTests/`
+- An `ISmsClient_CanBeResolvedFromDI_With<Name>` test in
+  `tests/SmsBridge.IntegrationTests/DependencyInjectionTests.cs`
+- Optional: a webhook parser in `Webhooks/` implementing `ISmsWebhookParser`, registered in
+  `RegisterCore` (`DependencyInjection/SmsBridgeServiceCollectionExtensions.cs`), with tests in
+  `tests/SmsBridge.WebhookTests/`
+- Documentation: the README "Supported Providers" table, `docs/providers.md`, and the
+  provider list in `docs/index.md`
 
 Use `HttpClient` via `IHttpClientFactory`. Do not depend on the provider's official SDK.
 
@@ -36,7 +49,7 @@ Use `HttpClient` via `IHttpClientFactory`. Do not depend on the provider's offic
 
 ## Tests
 
-Use xUnit and AwesomeAssertions. Mock HTTP with `RichardSzalay.MockHttp`.
+Use xUnit, AwesomeAssertions, and NSubstitute. Mock HTTP with `RichardSzalay.MockHttp`.
 
 ## Commit Style
 

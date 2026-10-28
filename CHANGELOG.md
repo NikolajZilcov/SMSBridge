@@ -11,7 +11,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- NuGet package icon (#64)
+- Documentation site logo and favicon (#65)
+
+### Changed
+
+- Polished the GitHub Pages documentation design (#66)
+
+## [0.5.0] - 2026-07-08
+
+### Added
+
+- AWS SNS SMS provider, including deterministic SigV4 signing coverage
+- Unifonic SMS provider aligned with the current send-message API documentation
+- Africa's Talking SMS provider using the documented legacy SMS endpoint
+- GitHub Pages documentation landing page and Jekyll front matter for docs pages
+
+## [0.4.0] - 2026-07-03
+
+### Added
+
+- SmartSMSSolutions SMS provider using the API-x endpoint, with response mapping,
+  dependency injection registration, and tests
+- Termii SMS provider using the Messaging API, with response mapping, dependency
+  injection registration, and tests
 - .NET 10 support for the SDK package, samples, tests, CI, and release publishing while preserving .NET 8 and .NET 9 targets.
+
+### Changed
+
+- Updated sample OpenAPI dependencies to avoid the vulnerable `Microsoft.OpenApi` transitive version
+- Updated provider documentation and README support tables
 
 ## [0.3.0] - 2026-06-23
 
@@ -32,6 +61,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added automatic Unicode selection for Vonage messages outside GSM-7
 - Made automatic failover conservative for ambiguous network and provider `5xx` outcomes
 - Updated provider, webhook, failover, and README documentation
+
+## [0.2.0] - 2026-06-14
+
+### Added
+
+- Sinch SMS provider (`UseSinch()`) using the XMS Batches REST API with Bearer token authentication
+- Plivo SMS provider (`UsePlivo()`) using the REST Message API with Basic authentication
+- Telnyx SMS provider (`UseTelnyx()`) using the v2 Messages API with Bearer token authentication
 
 ## [0.1.0] - 2026-06-14
 

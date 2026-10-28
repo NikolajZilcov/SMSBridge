@@ -37,6 +37,10 @@ https://teesofttech.github.io/SMSBridge/
 ### 1. Register SMSBridge
 
 ```csharp
+using SmsBridge.Abstractions;
+using SmsBridge.DependencyInjection;
+using SmsBridge.Options;
+
 builder.Services.AddSmsBridge(opts =>
     {
         opts.DefaultProvider = "twilio";
@@ -61,6 +65,8 @@ builder.Services.AddSmsBridge(
 ### 2. Inject and send
 
 ```csharp
+using SmsBridge.Abstractions;
+
 public sealed class NotificationService(ISmsClient smsClient)
 {
     public async Task SendOtpAsync(string phoneNumber, string code, CancellationToken ct = default) =>
@@ -146,7 +152,7 @@ not automatically fail over after a connection failure or `5xx` response because
 primary may already have accepted the message and retrying through another provider
 could deliver a duplicate.
 
-See [docs/failover.md](docs/failover.md) for the complete safety rules.
+See [Failover](https://teesofttech.github.io/SMSBridge/failover.html) for the complete safety rules.
 
 ---
 
@@ -173,9 +179,10 @@ Callback URLs can be configured for providers that support per-message delivery 
 });
 ```
 
-Twilio, Vonage, and Plivo callbacks use form payloads. Sinch and Telnyx callbacks
+Twilio, Vonage, and Plivo callbacks use flat key/value payloads. Sinch and Telnyx callbacks
 use JSON payloads. Resolve the provider parser with `SmsWebhookParserResolver`, then
-call `Parse(...)` or `ParseJson(...)` as appropriate.
+call `Parse(...)` or `ParseJson(...)` as appropriate. For Vonage, set the SMS API
+webhook format to `GET` or `POST`; `POST-JSON` is not supported.
 
 ---
 
@@ -218,10 +225,10 @@ call `Parse(...)` or `ParseJson(...)` as appropriate.
 
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidance.
+Contributions are welcome. See [CONTRIBUTING.md](https://github.com/teesofttech/SMSBridge/blob/main/CONTRIBUTING.md) for guidance.
 
 ---
 
 ## Licence
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/teesofttech/SMSBridge/blob/main/LICENSE).

@@ -14,6 +14,10 @@ dotnet add package SmsBridge
 ## Register
 
 ```csharp
+using SmsBridge.Abstractions;
+using SmsBridge.DependencyInjection;
+using SmsBridge.Options;
+
 builder.Services.AddSmsBridge(opts =>
     {
         opts.DefaultProvider = "twilio";
@@ -30,6 +34,8 @@ builder.Services.AddSmsBridge(opts =>
 ## Send
 
 ```csharp
+using SmsBridge.Abstractions;
+
 public sealed class MyService(ISmsClient smsClient)
 {
     public async Task NotifyAsync(string phone, string message) =>
