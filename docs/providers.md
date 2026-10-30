@@ -72,7 +72,8 @@ Uses the Plivo SMS REST API directly. No official Plivo SDK dependency.
 ```
 
 Uses the Telnyx messaging REST API directly. No official Telnyx SDK dependency.
-Telnyx delivery webhooks are configured on the Messaging Profile rather than per message.
+Telnyx supports a per-message `webhook_url`, but SMSBridge does not send one, so
+configure delivery webhooks on the Telnyx Messaging Profile.
 
 ## MessageBird
 
@@ -86,6 +87,23 @@ Telnyx delivery webhooks are configured on the Messaging Profile rather than per
 
 Uses the MessageBird SMS API directly with `AccessKey` authentication. SMSBridge
 submits URL-encoded message fields and requests automatic GSM/Unicode data coding.
+
+## AWS SNS
+
+```csharp
+.UseAwsSns("aws-sns", o =>
+{
+    o.AccessKeyId     = "AKIAxxxxxxxx";
+    o.SecretAccessKey = "xxxxxxxx";
+    o.Region          = "us-east-1";
+    o.SenderId        = "MyApp"; // optional
+})
+```
+
+Calls the Amazon SNS `Publish` action at `https://sns.{Region}.amazonaws.com/` with
+POST form data signed with AWS Signature Version 4. No AWS SDK dependency.
+`SenderId` is sent as the `AWS.SNS.SMS.SenderID` message attribute and can be
+overridden per message with `SmsMessage.From`.
 
 ## Infobip
 
@@ -133,6 +151,22 @@ submits the documented `token`, `sender`, `to`, `message`, `type`, `routing`,
 and `ref_id` fields. `type` defaults to `0`, `routing` defaults to `3`, and
 `ref_id`, `simserver_token`, `dlr_timeout`, and `schedule` can be supplied
 through message metadata.
+
+## Unifonic
+
+```csharp
+.UseUnifonic("unifonic", o =>
+{
+    o.AppSid = "your-app-sid";
+    o.From   = "MyApp";
+})
+```
+
+Uses Unifonic's `https://el.cloud.unifonic.com/rest/SMS/messages` endpoint with
+POST and Basic authentication using the `AppSid`. SMSBridge sends `AppSid`,
+`SenderID`, `Recipient`, `Body`, and `responseType` as query-string parameters
+and strips a leading `+` or `00` from the recipient. `CorrelationID`,
+`baseEncode`, `statusCallback`, and `async` can be supplied through message metadata.
 
 ## Africa's Talking
 

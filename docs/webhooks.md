@@ -7,8 +7,11 @@ layout: default
 
 SMSBridge can parse incoming provider webhook payloads into a normalised `SmsWebhookEvent`.
 
-Twilio, Vonage, and Plivo send flat form payloads and use `Parse(...)`. Sinch and
+Twilio, Vonage, and Plivo send flat key/value payloads and use `Parse(...)`. Sinch and
 Telnyx send structured JSON payloads and use `ParseJson(...)`.
+
+The Vonage parser reads flat GET query or POST form fields. In the Vonage API settings,
+set the SMS API **Webhook format** to `GET` or `POST`; `POST-JSON` is not supported.
 
 ## Resolve a Parser
 
